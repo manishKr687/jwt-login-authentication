@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/authdb
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  mvc:
+    cors:
+      mappings:
+        - path: /**
+          allowed-origins: "http://localhost:5173"
+          allowed-methods: "*"
+          allowed-headers: "*"
+          allow-credentials: true
+
+app:
+  jwt:
+    secret: "replace-this-with-a-256-bit-secret-for-jwt-signing-1234567890abcdef"
+    expiration-minutes: 60
+server:
+  port: 9096
