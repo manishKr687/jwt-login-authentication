@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - "7070:8080"
+      - "50000:50000"
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+
+  localtunnel:
+    image: node:18
+    container_name: localtunnel
+    command: >
+      sh -c "npm install -g localtunnel &&
+             lt --port 7070 --subdomain myjenkins"
+    depends_on:
+      - jenkins
