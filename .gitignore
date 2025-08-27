@@ -1,6 +1,15 @@
 # Backend (Spring Boot / Maven)
+.idea/
+*.class
+*.log
+*.ctxt
+*.jar
+*.war
+*.ear
 backend/target/
-
+**/.env
 # Frontend (Vue.js)
+.vscode/
 frontend/node_modules/
 frontend/dist/
+
