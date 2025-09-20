@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    environment {
+        REGISTRY = "jwt-login-authentication"
+    }
+
+    tools {
+        jdk 'Java17'
+        maven 'maven'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master', url: 'https://github.com/manishKr687/jwt-login-authentication.git'
+            }
+        }
+
+        stage('Build Service') {
+            steps {
+                sh 'mvn clean install -DskipTests'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('backend-service') {
+                    sh "docker build -t ${REGISTRY}-backend:latest ."
+                }
+            }
+        }
+
+        stage('Docker Compose Up') {
+            steps {
+                sh 'docker-compose down || true'
+                sh 'docker-compose up -d --build'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
